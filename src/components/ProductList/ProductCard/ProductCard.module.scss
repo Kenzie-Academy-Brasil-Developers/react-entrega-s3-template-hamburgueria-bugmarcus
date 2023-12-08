@@ -1,0 +1,15 @@
+.card {
+  border-radius: 5px;
+  border: 2px solid #27ae60;
+  background: #fff;
+  display: flex;
+  width: 300px;
+  height: 346px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-shrink: 0;
+  & .img {
+    background: var(--grey-0, #f5f5f5);
+  }
+}
