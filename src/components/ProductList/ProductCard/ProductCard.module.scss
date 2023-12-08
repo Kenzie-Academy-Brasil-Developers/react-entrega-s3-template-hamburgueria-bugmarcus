@@ -10,6 +10,9 @@
   align-items: flex-start;
   flex-shrink: 0;
   & .img {
-    background: var(--grey-0, #f5f5f5);
+    background: var(--grey-0);
+    width: 177px;
+    height: 177px;
+    flex-shrink: 0;
   }
 }
