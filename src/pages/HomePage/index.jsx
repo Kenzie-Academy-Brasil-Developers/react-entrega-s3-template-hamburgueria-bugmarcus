@@ -7,28 +7,56 @@ import axios from "axios";
 
 export const HomePage = () => {
   const [productList, setProductList] = useState([]);
-  const [cartList, setCartList] = useState([]);
+  const [cartList, setCartList] = useState(() => {
+    // Load cart data from local storage if available
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios
       .get("https://hamburgueria-kenzie-json-serve.herokuapp.com/products")
-      .then(function (response) {
+      .then((response) => {
         setProductList(response.data);
       });
   }, []);
-  // useEffect montagem - carrega os produtos da API e joga em productList
-  // useEffect atualização - salva os produtos no localStorage (carregar no estado)
-  // adição, exclusão, e exclusão geral do carrinho
-  // renderizações condições e o estado para exibir ou não o carrinho
-  // filtro de busca
-  // estilizar tudo com sass de forma responsiva
+
+  useEffect(() => {
+    // Save cart data to local storage whenever it changes
+    localStorage.setItem('cart', JSON.stringify(cartList));
+  }, [cartList]);
+
+  const onAddToCart = (product) => {
+    setCartList((prevCartList) => {
+      const existingItem = prevCartList.find(item => item.product.id === product.id);
+      if (existingItem) {
+        return prevCartList.map(item =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prevCartList, { product, quantity: 1 }];
+      }
+    });
+  };
+
+  const clearCart = () => {
+    setCartList([]);
+  };
 
   return (
     <>
       <Header cartList={cartList} setShowModal={setShowModal} />
       <main className={styles.main}>
-        <ProductList productList={productList} />
+        <ProductList productList={productList} onAddToCart={onAddToCart} />
+        {showModal && 
+          <CartModal 
+            cartList={cartList} 
+            setShowModal={setShowModal} 
+            clearCart={clearCart} 
+          />}
       </main>
     </>
   );

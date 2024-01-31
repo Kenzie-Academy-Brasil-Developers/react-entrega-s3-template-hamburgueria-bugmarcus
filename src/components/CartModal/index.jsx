@@ -1,11 +1,11 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { MdClose } from "react-icons/md";
-import { CartItemCard } from "./CartItemCard"; // Assuming this component exists
+import { CartItemCard } from "./CartItemCard";
 
-export const CartModal = ({ cartList, setShowModal }) => {
-    const total = cartList.reduce((prevValue, product) => {
-        return prevValue + product.price;
+export const CartModal = ({ cartList, setShowModal, onRemoveItem, clearCart }) => {
+    const total = cartList.reduce((prevValue, item) => {
+        return prevValue + (item.product.price * item.quantity);
     }, 0);
 
     return createPortal(
@@ -18,8 +18,13 @@ export const CartModal = ({ cartList, setShowModal }) => {
             </div>
             <div>
                 <ul>
-                    {cartList.map((product) => (
-                        <CartItemCard key={product.id} product={product} />
+                    {cartList.map((item) => (
+                        <CartItemCard 
+                            key={item.product.id} 
+                            product={item.product} 
+                            quantity={item.quantity}
+                            onDelete={onRemoveItem}
+                        />
                     ))}
                 </ul>
             </div>
@@ -28,7 +33,7 @@ export const CartModal = ({ cartList, setShowModal }) => {
                     <span>Total</span>
                     <span>{total.toLocaleString('pt-BR', { style: "currency", currency: "BRL"})}</span>
                 </div>
-                <button>Remover todos</button>
+                <button onClick={clearCart}>Remover todos</button>
             </div>
         </div>,
         document.body
