@@ -8,6 +8,8 @@ import axios from "axios";
 export const HomePage = () => {
   const [productList, setProductList] = useState([]);
   const [cartList, setCartList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     axios
       .get("https://hamburgueria-kenzie-json-serve.herokuapp.com/products")
@@ -24,10 +26,9 @@ export const HomePage = () => {
 
   return (
     <>
-      <Header />
-      <main>
+      <Header cartList={cartList} setShowModal={setShowModal} />
+      <main className={styles.main}>
         <ProductList productList={productList} />
-        <CartModal cartList={cartList} />
       </main>
     </>
   );

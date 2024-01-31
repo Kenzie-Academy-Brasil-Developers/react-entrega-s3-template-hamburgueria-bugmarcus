@@ -4,7 +4,7 @@ export const ProductCard = ({ product }) => {
   return (
     <li className={styles.card}>
       <img className={styles.img} src={product.img} alt={product.name} />
-      <div>
+      <div className={styles.info}>
         <h3>{product.name}</h3>
         <span>{product.category}</span>
         <span>

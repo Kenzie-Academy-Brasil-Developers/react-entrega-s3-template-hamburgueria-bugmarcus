@@ -1,11 +1,10 @@
+import React from 'react';
 import { HomePage } from "./pages/HomePage";
 import "./styles/global.scss";
 
 function App() {
   return (
-    <>
-      <HomePage />
-    </>
+    <HomePage />
   );
 }
 

@@ -1,33 +1,36 @@
+import React from 'react';
+import { createPortal } from 'react-dom';
 import { MdClose } from "react-icons/md";
-import { CartItemCard } from "./CartItemCard";
+import { CartItemCard } from "./CartItemCard"; // Assuming this component exists
 
-export const CartModal = ({ cartList }) => {
-   const total = cartList.reduce((prevValue, product) => {
-      return prevValue + product.price;
-   }, 0);
+export const CartModal = ({ cartList, setShowModal }) => {
+    const total = cartList.reduce((prevValue, product) => {
+        return prevValue + product.price;
+    }, 0);
 
-   return (
-      <div role="dialog">
-         <div>
-            <h2>Carrinho de compras</h2>
-            <button aria-label="close" title="Fechar">
-               <MdClose size={21} />
-            </button>
-         </div>
-         <div>
-            <ul>
-               {cartList.map((product) => (
-                  <CartItemCard key={product.id} product={product} />
-               ))}
-            </ul>
-         </div>
-         <div>
+    return createPortal(
+        <div role="dialog">
             <div>
-               <span>Total</span>
-               <span>{total.toLocaleString('pt-BR', { style: "currency", currency: "BRL"})}</span>
+                <h2>Carrinho de compras</h2>
+                <button aria-label="close" title="Fechar" onClick={() => setShowModal(false)}>
+                    <MdClose size={21} />
+                </button>
             </div>
-            <button>Remover todos</button>
-         </div>
-      </div>
-   );
+            <div>
+                <ul>
+                    {cartList.map((product) => (
+                        <CartItemCard key={product.id} product={product} />
+                    ))}
+                </ul>
+            </div>
+            <div>
+                <div>
+                    <span>Total</span>
+                    <span>{total.toLocaleString('pt-BR', { style: "currency", currency: "BRL"})}</span>
+                </div>
+                <button>Remover todos</button>
+            </div>
+        </div>,
+        document.body
+    );
 };
