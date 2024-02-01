@@ -8,8 +8,7 @@ import axios from "axios";
 export const HomePage = () => {
   const [productList, setProductList] = useState([]);
   const [cartList, setCartList] = useState(() => {
-    // Load cart data from local storage if available
-    const savedCart = localStorage.getItem('cart');
+    const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
   const [showModal, setShowModal] = useState(false);
@@ -23,15 +22,16 @@ export const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    // Save cart data to local storage whenever it changes
-    localStorage.setItem('cart', JSON.stringify(cartList));
+    localStorage.setItem("cart", JSON.stringify(cartList));
   }, [cartList]);
 
   const onAddToCart = (product) => {
     setCartList((prevCartList) => {
-      const existingItem = prevCartList.find(item => item.product.id === product.id);
+      const existingItem = prevCartList.find(
+        (item) => item.product.id === product.id
+      );
       if (existingItem) {
-        return prevCartList.map(item =>
+        return prevCartList.map((item) =>
           item.product.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -51,12 +51,14 @@ export const HomePage = () => {
       <Header cartList={cartList} setShowModal={setShowModal} />
       <main className={styles.main}>
         <ProductList productList={productList} onAddToCart={onAddToCart} />
-        {showModal && 
-          <CartModal 
-            cartList={cartList} 
-            setShowModal={setShowModal} 
-            clearCart={clearCart} 
-          />}
+        {showModal && (
+          <CartModal
+            cartList={cartList}
+            setShowModal={setShowModal}
+            clearCart={clearCart}
+            setCartList={setCartList}
+          />
+        )}
       </main>
     </>
   );
