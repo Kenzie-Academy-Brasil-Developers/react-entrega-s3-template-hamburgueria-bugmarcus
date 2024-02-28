@@ -3,7 +3,6 @@ import { MdDelete } from "react-icons/md";
 export const CartItemCard = ({ product, quantity, setCartList, cartList }) => {
   const onRemoveItem = () => {
     const newList = cartList.filter((item) => item.product.id !== product.id);
-    console.log(newList);
     setCartList(newList);
   };
   return (

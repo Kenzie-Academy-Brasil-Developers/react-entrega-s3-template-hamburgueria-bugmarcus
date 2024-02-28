@@ -5,6 +5,14 @@ import { MdSearch, MdShoppingCart } from "react-icons/md";
 export const Header = ({ cartList, setShowModal }) => {
   const [value, setValue] = useState("");
 
+  const sumQuantity = () => {
+    let sum = 0;
+    cartList.forEach((product) => {
+      sum += product.quantity;
+    });
+    return sum;
+  };
+
   return (
     <>
       <header>
@@ -12,7 +20,7 @@ export const Header = ({ cartList, setShowModal }) => {
         <div>
           <button onClick={() => setShowModal(true)}>
             <MdShoppingCart size={21} />
-            <span>0</span>
+            <span>{sumQuantity()}</span>
           </button>
           <form>
             <input

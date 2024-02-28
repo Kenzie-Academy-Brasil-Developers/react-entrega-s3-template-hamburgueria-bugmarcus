@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { MdClose } from "react-icons/md";
 import { CartItemCard } from "./CartItemCard";
+import styles from "./CartModal.module.scss";
 
 export const CartModal = ({
   cartList,
@@ -14,9 +15,9 @@ export const CartModal = ({
   }, 0);
 
   return createPortal(
-    <div role="dialog">
-      <div>
-        <h2>Carrinho de compras</h2>
+    <div className={styles.modalBackdrop} role="dialog">
+      <div className={styles.modalTitle}>
+        <h2 className={styles.titleText}>Carrinho de compras</h2>
         <button
           aria-label="close"
           title="Fechar"
@@ -25,7 +26,7 @@ export const CartModal = ({
           <MdClose size={21} />
         </button>
       </div>
-      <div>
+      <div className={styles.backgroundCard}>
         <ul>
           {cartList.map((item) => (
             <CartItemCard
